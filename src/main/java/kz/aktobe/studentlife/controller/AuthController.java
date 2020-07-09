@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
@@ -61,13 +60,13 @@ public class AuthController {
         if (studentRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Ошибка: С таким именем пользователь уже существует"));
         }
 
         if (studentRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Ошибка: С таким email-ом пользователь уже существует"));
         }
 
         Student student = new Student();
@@ -78,6 +77,6 @@ public class AuthController {
         studentRepository.save(student);
         log.info("Student successfully registered: {}", student);
 
-        return ResponseEntity.ok(new MessageResponse("Student registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Вы успешно зарегистрировались"));
     }
 }
